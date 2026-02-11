@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LinearCalculator.Unit1Page"
+             Title="Unit 1 - Matrices">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label
+                Text="Unit 1: Matrix Operations"
+                FontSize="22"
+                HorizontalOptions="Center" />
+
+            <Button Text="Matrix Addition" Clicked="OnAdditionClicked"/>
+            <Button Text="Matrix Subtraction" Clicked="OnSubtractionClicked"/>
+            <Button Text="Matrix Multiplication" Clicked="OnMultiplicationClicked"/>
+            <Button Text="Transpose" Clicked="OnTransposeClicked"/>
+            <Button Text="Determinant" Clicked="OnDeterminantClicked"/>
+            <Button Text="Inverse" Clicked="OnInverseClicked"/>
+            <Button Text="RREF" Clicked="OnRrefClicked"/>
+            <Button Text="Elimination" Clicked="OnEliminationClicked"/>
+            <Button Text="Substitution" Clicked="OnSubstitutionClicked"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

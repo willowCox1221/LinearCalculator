@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LinearCalculator.RrefPage"
+             Title="RREF Calculator">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label
+                Text="Reduced Row Echelon Form (RREF)"
+                FontSize="22"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="Enter matrix (rows on new lines, values separated by spaces):" />
+
+            <Editor
+                x:Name="MatrixInput"
+                HeightRequest="120"
+                AutoSize="TextChanges"
+                Placeholder="Example:
+1 2 3
+4 5 6" />
+
+            <Button
+                Text="Calculate RREF"
+                Clicked="OnCalculateClicked" />
+
+            <Label
+                Text="Steps:"
+                FontAttributes="Bold" />
+
+            <Label
+                x:Name="StepsLabel"
+                FontSize="14"
+                LineBreakMode="WordWrap" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
