@@ -63,6 +63,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="MatrixAdditionPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="RrefPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

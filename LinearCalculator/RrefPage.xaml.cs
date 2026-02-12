@@ -14,7 +14,7 @@ public partial class RrefPage : ContentPage
     {
         try
         {
-            double[,] matrix = ParseMatrix(MatrixInput.Text);
+            Fraction[,] matrix = ParseMatrix(MatrixInput.Text);
             List<string> steps = new();
 
             ComputeRref(matrix, steps);
@@ -28,25 +28,23 @@ public partial class RrefPage : ContentPage
     }
 
     // ---------------- MATRIX PARSING ----------------
-    private double[,] ParseMatrix(string input)
+    private Fraction[,] ParseMatrix(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
             throw new Exception("Matrix input is empty.");
 
-        // Split into rows (handles Windows + Unix line endings)
         var rows = input
             .Trim()
             .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
         int rowCount = rows.Length;
 
-        // Split first row by ANY whitespace
         var firstRowValues = rows[0]
             .Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
 
         int colCount = firstRowValues.Length;
 
-        double[,] matrix = new double[rowCount, colCount];
+        Fraction[,] matrix = new Fraction[rowCount, colCount];
 
         for (int i = 0; i < rowCount; i++)
         {
@@ -54,17 +52,28 @@ public partial class RrefPage : ContentPage
                 .Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
 
             if (values.Length != colCount)
-                throw new Exception("All rows must have the same number of columns.");
+                throw new Exception("All rows must have same number of columns.");
 
             for (int j = 0; j < colCount; j++)
-                matrix[i, j] = double.Parse(values[j]);
+                matrix[i, j] = ParseFraction(values[j]);
         }
 
         return matrix;
     }
 
+    private Fraction ParseFraction(string text)
+    {
+        if (text.Contains("/"))
+        {
+            var parts = text.Split('/');
+            return new Fraction(int.Parse(parts[0]), int.Parse(parts[1]));
+        }
+
+        return new Fraction(int.Parse(text));
+    }
+
     // ---------------- RREF LOGIC ----------------
-    private void ComputeRref(double[,] matrix, List<string> steps)
+    private void ComputeRref(Fraction[,] matrix, List<string> steps)
     {
         int rows = matrix.GetLength(0);
         int cols = matrix.GetLength(1);
@@ -76,7 +85,7 @@ public partial class RrefPage : ContentPage
                 return;
 
             int i = r;
-            while (matrix[i, lead] == 0)
+            while (matrix[i, lead].IsZero())
             {
                 i++;
                 if (i == rows)
@@ -94,10 +103,10 @@ public partial class RrefPage : ContentPage
                 steps.Add($"Swap R{i + 1} ↔ R{r + 1}\n{MatrixToString(matrix)}");
             }
 
-            double pivot = matrix[r, lead];
-            if (pivot != 1)
+            Fraction pivot = matrix[r, lead];
+            if (pivot.Numerator != pivot.Denominator)
             {
-                ScaleRow(matrix, r, 1 / pivot);
+                ScaleRow(matrix, r, new Fraction(1) / pivot);
                 steps.Add($"R{r + 1} = R{r + 1} / {pivot}\n{MatrixToString(matrix)}");
             }
 
@@ -105,8 +114,8 @@ public partial class RrefPage : ContentPage
             {
                 if (j != r)
                 {
-                    double factor = matrix[j, lead];
-                    if (factor != 0)
+                    Fraction factor = matrix[j, lead];
+                    if (!factor.IsZero())
                     {
                         AddRowMultiple(matrix, j, r, -factor);
                         steps.Add($"R{j + 1} = R{j + 1} - ({factor})R{r + 1}\n{MatrixToString(matrix)}");
@@ -119,21 +128,21 @@ public partial class RrefPage : ContentPage
     }
 
     // ---------------- ROW OPERATIONS ----------------
-    private void SwapRows(double[,] m, int r1, int r2)
+    private void SwapRows(Fraction[,] m, int r1, int r2)
     {
         int cols = m.GetLength(1);
         for (int i = 0; i < cols; i++)
             (m[r1, i], m[r2, i]) = (m[r2, i], m[r1, i]);
     }
 
-    private void ScaleRow(double[,] m, int row, double factor)
+    private void ScaleRow(Fraction[,] m, int row, Fraction factor)
     {
         int cols = m.GetLength(1);
         for (int i = 0; i < cols; i++)
             m[row, i] *= factor;
     }
 
-    private void AddRowMultiple(double[,] m, int target, int source, double factor)
+    private void AddRowMultiple(Fraction[,] m, int target, int source, Fraction factor)
     {
         int cols = m.GetLength(1);
         for (int i = 0; i < cols; i++)
@@ -141,7 +150,7 @@ public partial class RrefPage : ContentPage
     }
 
     // ---------------- DISPLAY ----------------
-    private string MatrixToString(double[,] matrix)
+    private string MatrixToString(Fraction[,] matrix)
     {
         int rows = matrix.GetLength(0);
         int cols = matrix.GetLength(1);
@@ -150,7 +159,7 @@ public partial class RrefPage : ContentPage
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < cols; j++)
-                result += $"{Math.Round(matrix[i, j], 2),6} ";
+                result += $"{matrix[i, j],8} ";
 
             result += "\n";
         }

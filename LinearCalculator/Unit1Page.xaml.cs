@@ -7,8 +7,9 @@ public partial class Unit1Page : ContentPage
         InitializeComponent();
     }
 
-    private async void OnAdditionClicked(object sender, EventArgs e)
-        => await DisplayAlert("Matrix Addition", "Coming soon", "OK");
+    private async void OnAdditionClicked(object sender, EventArgs e) { 
+        await Navigation.PushAsync(new MatrixAdditionPage());
+        }
 
     private async void OnSubtractionClicked(object sender, EventArgs e)
         => await DisplayAlert("Matrix Subtraction", "Coming soon", "OK");

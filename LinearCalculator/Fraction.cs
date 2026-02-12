@@ -54,6 +54,11 @@ public struct Fraction
     public static Fraction operator /(Fraction a, Fraction b) =>
         new(a.Numerator * b.Denominator, a.Denominator * b.Numerator);
 
+    public static Fraction operator -(Fraction a) =>
+    new(-a.Numerator, a.Denominator);
+
+    public bool IsZero() => Numerator == 0;
+
     public override string ToString() =>
         Denominator == 1 ? Numerator.ToString() : $"{Numerator}/{Denominator}";
 }
