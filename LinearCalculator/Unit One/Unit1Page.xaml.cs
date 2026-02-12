@@ -1,3 +1,5 @@
+using LinearCalculator.Unit_One;
+
 namespace LinearCalculator;
 
 public partial class Unit1Page : ContentPage
@@ -16,11 +18,14 @@ public partial class Unit1Page : ContentPage
         await Navigation.PushAsync (new MatrixSubtractionPage());
     }
 
-    private async void OnMultiplicationClicked(object sender, EventArgs e)
-        => await DisplayAlert("Matrix Multiplication", "Coming soon", "OK");
+    private async void OnMultiplicationClicked(object sender, EventArgs e){
+        await Navigation.PushAsync (new MatrixMultiplicationPage());
+    }
 
     private async void OnTransposeClicked(object sender, EventArgs e)
-        => await DisplayAlert("Transpose", "Coming soon", "OK");
+    {
+        await Navigation.PushAsync(new TransposePage());
+    }
 
     private async void OnDeterminantClicked(object sender, EventArgs e)
         => await DisplayAlert("Determinant", "Coming soon", "OK");

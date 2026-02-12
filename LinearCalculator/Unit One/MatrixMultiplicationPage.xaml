@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LinearCalculator.Unit_One.MatrixMultiplicationPage"
+             Title="MatrixMultiplicationPage">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Matrix Multiplication"
+               FontSize="22"
+               HorizontalOptions="Center" />
+
+            <Label Text="Matrix A (rows on new lines, space separated):" />
+            <Editor x:Name="MatrixAInput"
+                HeightRequest="120"
+                AutoSize="TextChanges" />
+
+            <Label Text="Matrix B:" />
+            <Editor x:Name="MatrixBInput"
+                HeightRequest="120"
+                AutoSize="TextChanges" />
+
+            <Button Text="Multiply Matrices"
+                Clicked="OnMultiplicationClicked" />
+
+            <Label Text="Steps:"
+               FontAttributes="Bold" />
+
+            <Label x:Name="StepsLabel"
+               LineBreakMode="WordWrap" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
