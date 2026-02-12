@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LinearCalculator.MatrixSubtractionPage"
+             Title="Matrix Subtraction">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Matrix Subtraction"
+               FontSize="22"
+               HorizontalOptions="Center" />
+
+            <Label Text="Matrix A (rows on new lines, space separated):" />
+            <Editor x:Name="MatrixAInput"
+                HeightRequest="120"
+                AutoSize="TextChanges" />
+
+            <Label Text="Matrix B (same size as A):" />
+            <Editor x:Name="MatrixBInput"
+                HeightRequest="120"
+                AutoSize="TextChanges" />
+
+            <Button Text="Subtract Matrices"
+                Clicked="OnSubtractClicked" />
+
+            <Label Text="Steps:"
+               FontAttributes="Bold" />
+
+            <Label x:Name="StepsLabel"
+               LineBreakMode="WordWrap" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

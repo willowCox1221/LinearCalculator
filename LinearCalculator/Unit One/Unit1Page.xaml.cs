@@ -12,7 +12,9 @@ public partial class Unit1Page : ContentPage
         }
 
     private async void OnSubtractionClicked(object sender, EventArgs e)
-        => await DisplayAlert("Matrix Subtraction", "Coming soon", "OK");
+    {
+        await Navigation.PushAsync (new MatrixSubtractionPage());
+    }
 
     private async void OnMultiplicationClicked(object sender, EventArgs e)
         => await DisplayAlert("Matrix Multiplication", "Coming soon", "OK");

@@ -63,22 +63,25 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="MatrixAdditionPage.xaml">
+	  <MauiXaml Update="Unit One\MatrixAdditionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="RrefPage.xaml">
+	  <MauiXaml Update="Unit One\MatrixSubractionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Unit1Page.xaml">
+	  <MauiXaml Update="Unit One\RrefPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Unit2Page.xaml">
+	  <MauiXaml Update="Unit One\Unit1Page.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Unit3Page.xaml">
+	  <MauiXaml Update="Unit Two\Unit2Page.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Unit4Page.xaml">
+	  <MauiXaml Update="Unit Three\Unit3Page.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Unit Four\Unit4Page.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
