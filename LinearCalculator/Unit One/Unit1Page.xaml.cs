@@ -28,7 +28,9 @@ public partial class Unit1Page : ContentPage
     }
 
     private async void OnDeterminantClicked(object sender, EventArgs e)
-        => await DisplayAlert("Determinant", "Coming soon", "OK");
+    {
+        await Navigation.PushAsync(new DeterminantPage());
+    }
 
     private async void OnInverseClicked(object sender, EventArgs e)
         => await DisplayAlert("Inverse", "Coming soon", "OK");
