@@ -33,14 +33,18 @@ public partial class Unit1Page : ContentPage
     }
 
     private async void OnInverseClicked(object sender, EventArgs e)
-        => await DisplayAlert("Inverse", "Coming soon", "OK");
+    {
+        await Navigation.PushAsync(new InversePage());
+    }
 
     private async void OnRrefClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new RrefPage());
     }
     private async void OnEliminationClicked(object sender, EventArgs e)
-        => await DisplayAlert("Elimination", "Coming soon", "OK");
+    {
+        await Navigation.PushAsync(new EliminationPage());
+    }
 
     private async void OnSubstitutionClicked(object sender, EventArgs e)
         => await DisplayAlert("Substitution", "Coming soon", "OK");

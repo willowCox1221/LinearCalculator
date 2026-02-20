@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LinearCalculator.Unit_One.EliminationPage"
+             Title="Gaussian Elimination">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- Title -->
+            <Label Text="Gaussian Elimination (RREF)"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <!-- Instructions -->
+            <Label Text="Enter matrix rows separated by new lines. Separate numbers with spaces."
+                   FontSize="14"
+                   TextColor="Gray" />
+
+            <!-- Matrix Input -->
+            <Editor x:Name="MatrixInput"
+                    Placeholder="Example:
+1 2 3
+4 5 6
+7 8 9"
+                    AutoSize="TextChanges"
+                    HeightRequest="150"
+                    BackgroundColor="#f0f0f0" />
+
+            <!-- Button -->
+            <Button Text="Perform Elimination"
+                    Clicked="OnEliminateClicked"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White" />
+
+            <!-- Output Label -->
+            <Label Text="Steps:"
+                   FontSize="18"
+                   FontAttributes="Bold" />
+
+            <!-- Steps Output -->
+            <Label x:Name="StepsLabel"
+                   FontFamily="Courier New"
+                   LineBreakMode="WordWrap"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Start" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

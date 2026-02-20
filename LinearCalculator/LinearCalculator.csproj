@@ -66,6 +66,9 @@
 	  <MauiXaml Update="Unit One\DeterminantPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Unit One\EliminationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Unit One\InversePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -2,6 +2,36 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LinearCalculator.Unit_One.InversePage"
-             Title="InversePage">
-    
+             Title="Matrix Inverse">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Matrix Inverse"
+                   FontSize="24"
+                   HorizontalOptions="Center" />
+
+            <Label Text="Enter Square Matrix (rows on new lines, space separated):" />
+
+            <Editor x:Name="MatrixInput"
+                    HeightRequest="150"
+                    AutoSize="TextChanges"
+                    Placeholder="Example:
+1 2
+3 4" />
+
+            <Button Text="Calculate Inverse"
+                    Clicked="OnInverseClicked"
+                    BackgroundColor="#5A2FC2"
+                    TextColor="White" />
+
+            <Label Text="Steps:"
+                   FontAttributes="Bold" />
+
+            <Label x:Name="StepsLabel"
+                   LineBreakMode="WordWrap" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>
