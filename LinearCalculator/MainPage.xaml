@@ -15,7 +15,7 @@
             <Button Text="Unit 1"
                     Clicked="OnUnit1Clicked" />
 
-            <Button Text="Unit 2" />
+            <Button Text="Unit 2" Clicked="OnUnit2Clicked"/>
 
             <Button Text="Unit 3" />
 

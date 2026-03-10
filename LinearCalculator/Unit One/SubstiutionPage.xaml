@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LinearCalculator.Unit_One.SubstitutionPage"
+             Title="Substitution Solver">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Enter an augmented matrix (space separated):"
+                   FontAttributes="Bold"/>
+
+            <Editor x:Name="MatrixInput"
+                    Placeholder="Example:
+1 0 0 4
+0 1 0 3
+0 0 1 2"
+                    AutoSize="TextChanges"
+                    HeightRequest="150"/>
+
+            <Button Text="Solve Using Substitution"
+                    Clicked="OnSolveClicked"/>
+
+            <Label Text="Steps:"
+                   FontAttributes="Bold"/>
+
+            <Label x:Name="StepsLabel"
+                   LineBreakMode="WordWrap"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

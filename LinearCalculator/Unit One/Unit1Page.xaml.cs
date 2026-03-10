@@ -47,5 +47,7 @@ public partial class Unit1Page : ContentPage
     }
 
     private async void OnSubstitutionClicked(object sender, EventArgs e)
-        => await DisplayAlert("Substitution", "Coming soon", "OK");
+    {
+        await Navigation.PushAsync(new SubstitutionPage());
+    }
 }
