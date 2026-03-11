@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LinearCalculator.Unit_Three.ScalingTransformationPage"
+             Title="ScalingTransformationPage">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+
+            <Label Text="3D Scaling Matrix Generator"
+                   FontSize="20"
+                   HorizontalOptions="Center"/>
+
+            <Label Text="Scale Factors"/>
+
+            <Entry x:Name="ScaleX" Placeholder="Scale X (ex: 0.5)" Keyboard="Numeric"/>
+            <Entry x:Name="ScaleY" Placeholder="Scale Y (ex: 2)" Keyboard="Numeric"/>
+            <Entry x:Name="ScaleZ" Placeholder="Scale Z (ex: 2)" Keyboard="Numeric"/>
+
+            <Button Text="Generate Scaling Matrix"
+                    Clicked="OnScalingClicked"/>
+
+            <Label x:Name="ResultLabel"
+                   FontFamily="Courier"
+                   LineBreakMode="WordWrap"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

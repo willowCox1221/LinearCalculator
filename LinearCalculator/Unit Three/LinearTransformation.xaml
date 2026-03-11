@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LinearCalculator.Unit_Three.LinearTransformation"
+             Title="LinearTransformation">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+            <Label Text="Matrix A"/>
+
+            <HorizontalStackLayout>
+                <Entry x:Name="A11" Placeholder="a"/>
+                <Entry x:Name="A12" Placeholder="b"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
+                <Entry x:Name="A21" Placeholder="c"/>
+                <Entry x:Name="A22" Placeholder="d"/>
+            </HorizontalStackLayout>
+
+            <Label Text="Vector v"/>
+
+            <Entry x:Name="VectorX" Placeholder="x"/>
+            <Entry x:Name="VectorY" Placeholder="y"/>
+
+            <Button Text="Calculate Transformation"
+                Clicked="OnLinearTransformaionClicked"/>
+
+            <Label x:Name="ResultLabel"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

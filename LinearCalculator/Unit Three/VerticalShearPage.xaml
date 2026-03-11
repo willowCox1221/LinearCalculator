@@ -1,0 +1,26 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LinearCalculator.Unit_Three.VerticalShearPage"
+             Title="Vertical Shear">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+
+            <Label Text="Vertical Shear Matrix Generator"
+                   FontSize="20"
+                   HorizontalOptions="Center"/>
+
+            <Entry x:Name="ShearValue"
+                   Placeholder="Enter shear value (ex: 2)"/>
+
+            <Button Text="Generate Shear Matrix"
+                    Clicked="OnShearClicked"/>
+
+            <Label x:Name="ResultLabel"
+                   FontFamily="Courier"
+                   LineBreakMode="WordWrap"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

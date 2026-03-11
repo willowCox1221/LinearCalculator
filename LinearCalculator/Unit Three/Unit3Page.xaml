@@ -3,10 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LinearCalculator.Unit3Page"
              Title="Unit3Page">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label
+                Text="Unit 3: Vector Shifting"
+                FontSize="22"
+                HorizontalOptions="Center" />
+
+            <Button Text="Orthogonal Checker" Clicked="OnCheckOrthogonalClicked"/>
+            <Button Text="Orthonormal Checker" Clicked="OnCheckOrthonormalClicked"/>
+            <Button Text="Linear Transformation" Clicked="OnLinearTransformationClicked"/>
+            <Button Text="Rotate X" Clicked="OnRotationClicked"/>
+            <Button Text="Rotate Y" Clicked="OnRotationYClicked"/>
+            <Button Text="Scaling Transformation" Clicked="OnScalingClicked"/>
+            <Button Text="Vertical Shear" Clicked="OnShearClicked"/>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

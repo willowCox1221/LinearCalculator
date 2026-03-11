@@ -1,0 +1,27 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LinearCalculator.Unit_Three.RotationYPage"
+             Title="Rotation About Y-Axis">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+
+            <Label Text="Rotation About Y-Axis Matrix"
+                   FontSize="20"
+                   HorizontalOptions="Center"/>
+
+            <Entry x:Name="AngleInput"
+                   Placeholder="Enter angle in degrees"
+                   Keyboard="Numeric"/>
+
+            <Button Text="Generate Rotation Matrix"
+                    Clicked="OnRotationClicked"/>
+
+            <Label x:Name="ResultLabel"
+                   FontFamily="Courier"
+                   LineBreakMode="WordWrap"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
