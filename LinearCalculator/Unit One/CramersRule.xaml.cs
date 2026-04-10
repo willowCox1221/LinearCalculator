@@ -25,8 +25,6 @@ public partial class CramersRule : ContentPage
 
     private void Solve2x2()
     {
-        // your current 2x2 logic here
-
         try
         {
             double a = double.Parse(EntryA.Text);
