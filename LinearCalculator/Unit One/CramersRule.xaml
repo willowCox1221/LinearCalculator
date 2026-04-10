@@ -15,39 +15,67 @@
                 </Picker.Items>
             </Picker>
 
-            <VerticalStackLayout x:Name="TwoByTwoLayout">
-
-                <Entry x:Name="EntryA" Placeholder="a"/>
-                <Entry x:Name="EntryB" Placeholder="b"/>
-                <Entry x:Name="EntryE" Placeholder="e"/>
-
-                <Entry x:Name="EntryC" Placeholder="c"/>
-                <Entry x:Name="EntryD" Placeholder="d"/>
-                <Entry x:Name="EntryF" Placeholder="f"/>
-
-            </VerticalStackLayout>
-
-            <VerticalStackLayout x:Name="ThreeByThreeLayout" IsVisible="False">
+            <Grid x:Name="TwoByTwoLayout"            
+                  ColumnDefinitions="*,*,Auto,*"
+                  RowDefinitions="Auto,Auto"
+                  ColumnSpacing="5"
+                  RowSpacing="5">
+     
 
                 <!-- Row 1 -->
-                <Entry x:Name="A" Placeholder="a"/>
-                <Entry x:Name="B" Placeholder="b"/>
-                <Entry x:Name="C" Placeholder="c"/>
-                <Entry x:Name="Dval" Placeholder="d"/>
+                <Entry x:Name="EntryA" Grid.Row="0" Grid.Column="0" WidthRequest="50"/>
+                <Entry x:Name="EntryB" Grid.Row="0" Grid.Column="1" WidthRequest="50"/>
+
+                <Label Text="|" Grid.Row="0" Grid.Column="2" FontSize="20" VerticalOptions="Center"/>
+
+                <Entry x:Name="EntryE" Grid.Row="0" Grid.Column="3" WidthRequest="50"/>
 
                 <!-- Row 2 -->
-                <Entry x:Name="E" Placeholder="e"/>
-                <Entry x:Name="F" Placeholder="f"/>
-                <Entry x:Name="G" Placeholder="g"/>
-                <Entry x:Name="H" Placeholder="h"/>
+                <Entry x:Name="EntryC" Grid.Row="1" Grid.Column="0" WidthRequest="50"/>
+                <Entry x:Name="EntryD" Grid.Row="1" Grid.Column="1" WidthRequest="50"/>
+
+                <Label Text="|" Grid.Row="1" Grid.Column="2" FontSize="20" VerticalOptions="Center"/>
+
+                <Entry x:Name="EntryF" Grid.Row="1" Grid.Column="3" WidthRequest="50"/>
+
+            </Grid>
+
+            <!--This is the 3x3 layout in grid format :> Duh-->
+            <Grid x:Name="ThreeByThreeLayout"
+                  IsVisible="False"
+                  ColumnDefinitions="*,*,*,Auto,*"
+                  RowDefinitions="Auto,Auto,Auto"
+                  ColumnSpacing="5"
+                  RowSpacing="5">
+
+                <!-- Row 1 -->
+                <Entry x:Name="A" Grid.Row="0" Grid.Column="0" WidthRequest="50"/>
+                <Entry x:Name="B" Grid.Row="0" Grid.Column="1" WidthRequest="50"/>
+                <Entry x:Name="C" Grid.Row="0" Grid.Column="2" WidthRequest="50"/>
+
+                <Label Text="|" Grid.Row="0" Grid.Column="3" FontSize="20" VerticalOptions="Center"/>
+
+                <Entry x:Name="Dval" Grid.Row="0" Grid.Column="4" WidthRequest="50"/>
+
+                <!-- Row 2 -->
+                <Entry x:Name="E" Grid.Row="1" Grid.Column="0" WidthRequest="50"/>
+                <Entry x:Name="F" Grid.Row="1" Grid.Column="1" WidthRequest="50"/>
+                <Entry x:Name="G" Grid.Row="1" Grid.Column="2" WidthRequest="50"/>
+
+                <Label Text="|" Grid.Row="1" Grid.Column="3" FontSize="20" VerticalOptions="Center"/>
+
+                <Entry x:Name="H" Grid.Row="1" Grid.Column="4" WidthRequest="50"/>
 
                 <!-- Row 3 -->
-                <Entry x:Name="I" Placeholder="i"/>
-                <Entry x:Name="J" Placeholder="j"/>
-                <Entry x:Name="K" Placeholder="k"/>
-                <Entry x:Name="L" Placeholder="l"/>
+                <Entry x:Name="I" Grid.Row="2" Grid.Column="0" WidthRequest="50"/>
+                <Entry x:Name="J" Grid.Row="2" Grid.Column="1" WidthRequest="50"/>
+                <Entry x:Name="K" Grid.Row="2" Grid.Column="2" WidthRequest="50"/>
 
-            </VerticalStackLayout>
+                <Label Text="|" Grid.Row="2" Grid.Column="3" FontSize="20" VerticalOptions="Center"/>
+
+                <Entry x:Name="L" Grid.Row="2" Grid.Column="4" WidthRequest="50"/>
+
+            </Grid>
 
             <Label x:Name="ResultLabel" FontSize="18" TextColor="Blue"/>
 
