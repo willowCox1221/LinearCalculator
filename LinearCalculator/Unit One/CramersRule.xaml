@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LinearCalculator.Unit_One.CramersRule"
+             Title="CramersRule">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+
+            <Label Text="Cramer's Rule Calculator (2x2)" FontSize="20"/>
+
+            <Picker x:Name="ModePicker" SelectedIndexChanged="OnModeChanged">
+                <Picker.Items>
+                    <x:String>2x2</x:String>
+                    <x:String>3x3</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <VerticalStackLayout x:Name="TwoByTwoLayout">
+
+                <Entry x:Name="EntryA" Placeholder="a"/>
+                <Entry x:Name="EntryB" Placeholder="b"/>
+                <Entry x:Name="EntryE" Placeholder="e"/>
+
+                <Entry x:Name="EntryC" Placeholder="c"/>
+                <Entry x:Name="EntryD" Placeholder="d"/>
+                <Entry x:Name="EntryF" Placeholder="f"/>
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout x:Name="ThreeByThreeLayout" IsVisible="False">
+
+                <!-- Row 1 -->
+                <Entry x:Name="A" Placeholder="a"/>
+                <Entry x:Name="B" Placeholder="b"/>
+                <Entry x:Name="C" Placeholder="c"/>
+                <Entry x:Name="Dval" Placeholder="d"/>
+
+                <!-- Row 2 -->
+                <Entry x:Name="E" Placeholder="e"/>
+                <Entry x:Name="F" Placeholder="f"/>
+                <Entry x:Name="G" Placeholder="g"/>
+                <Entry x:Name="H" Placeholder="h"/>
+
+                <!-- Row 3 -->
+                <Entry x:Name="I" Placeholder="i"/>
+                <Entry x:Name="J" Placeholder="j"/>
+                <Entry x:Name="K" Placeholder="k"/>
+                <Entry x:Name="L" Placeholder="l"/>
+
+            </VerticalStackLayout>
+
+            <Label x:Name="ResultLabel" FontSize="18" TextColor="Blue"/>
+
+            <!-- Steps -->
+            <Label Text="Steps:" FontAttributes="Bold"/>
+            <Label x:Name="StepsLabel" FontSize="16"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

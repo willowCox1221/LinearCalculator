@@ -50,4 +50,9 @@ public partial class Unit1Page : ContentPage
     {
         await Navigation.PushAsync(new SubstitutionPage());
     }
+
+    private async void OnCramersClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new CramersRule());
+    }
 }

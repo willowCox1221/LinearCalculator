@@ -21,7 +21,7 @@
             <Button Text="RREF" Clicked="OnRrefClicked"/>
             <Button Text="Elimination" Clicked="OnEliminationClicked"/>
             <Button Text="Substitution" Clicked="OnSubstitutionClicked"/>
-
+            <Button Text="Cramer's Rule" Clicked="OnCramersClicked"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

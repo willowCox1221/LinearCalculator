@@ -71,6 +71,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Unit One\CramersRule.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Unit One\DeterminantPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
