@@ -77,6 +77,15 @@
 
             </Grid>
 
+            <Button 
+                Text="Solve System"
+                Clicked="OnCramersClicked"
+                BackgroundColor="#6A0DAD"
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="50"
+                Margin="0,10,0,10"/>        
+
             <Label x:Name="ResultLabel" FontSize="18" TextColor="Blue"/>
 
             <!-- Steps -->
