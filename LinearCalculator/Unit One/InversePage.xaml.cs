@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 
 namespace LinearCalculator.Unit_One
@@ -10,10 +10,13 @@ namespace LinearCalculator.Unit_One
             InitializeComponent();
         }
 
+        
         private void OnInverseClicked(object sender, EventArgs e)
         {
             try
             {
+                StepsContainer.Children.Clear();
+
                 var rows = MatrixInput.Text
                     .Trim()
                     .Split(new[] { "\r\n", "\n", "\r" },
@@ -30,7 +33,8 @@ namespace LinearCalculator.Unit_One
 
                     if (values.Length != n)
                     {
-                        StepsLabel.Text = "Matrix must be square.";
+                        StepsContainer.Children.Add(
+                            CreateStep("Error", "Matrix must be square.", Colors.Red));
                         return;
                     }
 
@@ -38,7 +42,8 @@ namespace LinearCalculator.Unit_One
                     {
                         if (!TryParseNumber(values[j], out double number))
                         {
-                            StepsLabel.Text = "Invalid number format.";
+                            StepsContainer.Children.Add(
+                                CreateStep("Error", "Invalid number format.", Colors.Red));
                             return;
                         }
 
@@ -46,31 +51,97 @@ namespace LinearCalculator.Unit_One
                     }
                 }
 
-                string steps = "";
+                // STEP 1
+                StepsContainer.Children.Add(
+                    CreateStep("STEP 1: Matrix A", MatrixToString(matrix))
+                );
+
+                // STEP 2 - Determinant
                 double det = CalculateDeterminant(matrix);
 
-                steps += $"Determinant = {det}\n\n";
+                string detSteps = $"det(A) = {ToFraction(det)}";
 
-                if (det == 0)
+                if (n == 2)
                 {
-                    StepsLabel.Text = "Matrix is not invertible (determinant = 0).";
-                    return;
+                    detSteps =
+                        $"det(A) = ({ToFraction(matrix[0, 0])})({ToFraction(matrix[1, 1])}) - " +
+                        $"({ToFraction(matrix[0, 1])})({ToFraction(matrix[1, 0])})\n\n" +
+                        $"det(A) = {ToFraction(det)}";
                 }
 
-                double[,] adj = Adjugate(matrix);
+                StepsContainer.Children.Add(
+                    CreateStep("STEP 2: Determinant", detSteps)
+                );
+
+                // STEP 3 - Check invertibility
+                if (det == 0)
+                {
+                    StepsContainer.Children.Add(
+                        CreateStep("STEP 3: Invertibility",
+                        "det(A) = 0 → Matrix is NOT invertible.", Colors.Red));
+                    return;
+                }
+                else
+                {
+                    StepsContainer.Children.Add(
+                        CreateStep("STEP 3: Invertibility",
+                        "det(A) ≠ 0 → Matrix is invertible.", Colors.Green));
+                }
+
+                // STEP 4 - Cofactor Matrix
+                int size = matrix.GetLength(0);
+                double[,] cofactors = new double[size, size];
+                string cofactorSteps = "";
+
+                for (int i = 0; i < size; i++)
+                {
+                    for (int j = 0; j < size; j++)
+                    {
+                        double[,] minor = GetMinor(matrix, i, j);
+                        double sign = Math.Pow(-1, i + j);
+                        double minorDet = CalculateDeterminant(minor);
+
+                        cofactors[i, j] = sign * minorDet;
+
+                        cofactorSteps += $"C{i + 1}{j + 1} = {((i + j) % 2 == 0 ? "+" : "-")} det(minor) = {ToFraction(cofactors[i, j])}\n";
+                    }
+                }
+
+                cofactorSteps += "\nMatrix:\n" + MatrixToString(cofactors);
+
+                StepsContainer.Children.Add(
+                    CreateStep("STEP 4: Cofactor Matrix", cofactorSteps)
+                );
+
+                // STEP 5 - Adjugate
+                double[,] adj = Transpose(cofactors);
+
+                StepsContainer.Children.Add(
+                    CreateStep("STEP 5: Adjugate (Transpose)", MatrixToString(adj))
+                );
+
+                // STEP 6 - Scale
+                StepsContainer.Children.Add(
+                    CreateStep("STEP 6: Scale by 1/det",
+                    $"1 / det = 1 / {ToFraction(det)}")
+                );
+
+                // STEP 7 - Final Answer
                 double[,] inverse = MultiplyByScalar(adj, 1 / det);
 
-                steps += "Inverse Matrix:\n";
-                steps += MatrixToString(inverse);
-
-                StepsLabel.Text = steps;
+                StepsContainer.Children.Add(
+                    CreateStep("STEP 7: Inverse Matrix", MatrixToString(inverse))
+                );
             }
             catch
             {
-                StepsLabel.Text = "Invalid matrix input.";
+                StepsContainer.Children.Add(
+                    CreateStep("Error", "Invalid matrix input.", Colors.Red));
             }
         }
 
+
+        // Gets determinant
         private double CalculateDeterminant(double[,] matrix)
         {
             int n = matrix.GetLength(0);
@@ -92,7 +163,42 @@ namespace LinearCalculator.Unit_One
             }
 
             return det;
+
+            
         }
+
+
+        private View CreateStep(string title, string content, Color? color = null)
+        {
+            return new Frame
+            {
+                Padding = 12,
+                CornerRadius = 12,
+                BorderColor = Colors.LightGray,
+                BackgroundColor = Colors.White,
+                Content = new VerticalStackLayout
+                {
+                    Children =
+            {
+                new Label
+                {
+                    Text = title,
+                    FontSize = 18,
+                    FontAttributes = FontAttributes.Bold,
+                    TextColor = Colors.Purple
+                },
+                new Label
+                {
+                    Text = content,
+                    FontSize = 14,
+                    FontFamily = "Courier New",
+                    TextColor = color ?? Colors.Black
+                }
+            }
+                }
+            };
+        }
+
 
         private double[,] Adjugate(double[,] matrix)
         {
@@ -194,11 +300,12 @@ namespace LinearCalculator.Unit_One
 
             for (int i = 0; i < n; i++)
             {
+                result += "| ";
                 for (int j = 0; j < n; j++)
                 {
-                    result += ToFraction(matrix[i, j]) + "   ";
+                    result += $"{ToFraction(matrix[i, j]),6}";
                 }
-                result += "\n";
+                result += " |\n";
             }
 
             return result;

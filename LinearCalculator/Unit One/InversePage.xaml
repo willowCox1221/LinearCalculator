@@ -28,8 +28,9 @@
             <Label Text="Steps:"
                    FontAttributes="Bold" />
 
-            <Label x:Name="StepsLabel"
-                   LineBreakMode="WordWrap" />
+            <ScrollView>
+                <VerticalStackLayout x:Name="StepsContainer" Padding="10" Spacing="10"/>
+            </ScrollView>
 
         </VerticalStackLayout>
     </ScrollView>
