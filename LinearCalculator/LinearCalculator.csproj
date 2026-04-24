@@ -57,6 +57,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Class1.cs" />
 	  <Compile Remove="Unit Two\AnglePage.xaml.cs" />
 	</ItemGroup>
 

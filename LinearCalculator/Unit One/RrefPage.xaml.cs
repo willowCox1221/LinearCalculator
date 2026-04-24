@@ -19,6 +19,15 @@ public partial class RrefPage : ContentPage
 
             ComputeRref(matrix, steps);
 
+            // 🔥 NEW PART
+            string analysis = AnalyzeSolution(matrix);
+            string solution = GetSolution(matrix);
+
+            steps.Add("Final RREF:");
+            steps.Add(MatrixToString(matrix));
+            steps.Add(analysis);
+            steps.Add(solution);
+
             StepsLabel.Text = string.Join("\n\n", steps);
         }
         catch (Exception ex)
@@ -125,6 +134,120 @@ public partial class RrefPage : ContentPage
 
             lead++;
         }
+    }
+
+    private string AnalyzeSolution(Fraction[,] matrix)
+    {
+        int rows = matrix.GetLength(0);
+        int cols = matrix.GetLength(1);
+        int variables = cols - 1;
+
+        int pivotCount = 0;
+        bool inconsistent = false;
+
+        for (int i = 0; i < rows; i++)
+        {
+            bool allZero = true;
+
+            for (int j = 0; j < variables; j++)
+            {
+                if (!matrix[i, j].IsZero())
+                {
+                    allZero = false;
+                    break;
+                }
+            }
+
+            // 0 0 0 | b  (b ≠ 0)
+            if (allZero && !matrix[i, cols - 1].IsZero())
+                inconsistent = true;
+
+            if (!allZero)
+                pivotCount++;
+        }
+
+        if (inconsistent)
+            return "No solution (inconsistent system)";
+
+        if (pivotCount == variables)
+            return "Unique solution";
+
+        return "Infinite solutions (free variables)";
+    }
+
+    private string GetSolution(Fraction[,] matrix)
+    {
+        int rows = matrix.GetLength(0);
+        int cols = matrix.GetLength(1);
+        int variables = cols - 1;
+
+        string[] result = new string[variables];
+        bool[] isPivot = new bool[variables];
+
+        // Detect pivot columns
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < variables; j++)
+            {
+                if (matrix[i, j].Numerator == matrix[i, j].Denominator) // equals 1
+                {
+                    isPivot[j] = true;
+                    break;
+                }
+            }
+        }
+
+        // Assign parameters
+        string[] paramNames = { "t", "s", "u", "v" };
+        int paramIndex = 0;
+
+        for (int j = 0; j < variables; j++)
+        {
+            if (!isPivot[j])
+            {
+                result[j] = paramNames[paramIndex++];
+            }
+        }
+
+        // Solve pivot variables
+        for (int i = 0; i < rows; i++)
+        {
+            int pivotCol = -1;
+
+            for (int j = 0; j < variables; j++)
+            {
+                if (matrix[i, j].Numerator == matrix[i, j].Denominator)
+                {
+                    pivotCol = j;
+                    break;
+                }
+            }
+
+            if (pivotCol == -1) continue;
+
+            string expr = matrix[i, cols - 1].ToString();
+
+            for (int j = pivotCol + 1; j < variables; j++)
+            {
+                if (!matrix[i, j].IsZero())
+                {
+                    expr += $" - ({matrix[i, j]}){result[j]}";
+                }
+            }
+
+            result[pivotCol] = expr;
+        }
+
+        // Format nicely
+        string[] varNames = { "x", "y", "z", "w" };
+        List<string> lines = new();
+
+        for (int i = 0; i < variables; i++)
+        {
+            lines.Add($"{varNames[i]} = {result[i]}");
+        }
+
+        return string.Join("\n", lines);
     }
 
     // ---------------- ROW OPERATIONS ----------------
