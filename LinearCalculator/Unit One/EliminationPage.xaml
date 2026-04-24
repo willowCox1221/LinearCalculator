@@ -1,52 +1,73 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LinearCalculator.Unit_One.EliminationPage"
-             Title="Gaussian Elimination">
+             Title="Gaussian Elimination"
+             BackgroundColor="#F5F5F5">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+        <VerticalStackLayout Padding="20" Spacing="20">
 
             <!-- Title -->
-            <Label Text="Gaussian Elimination (RREF)"
-                   FontSize="24"
+            <Label Text="Gaussian Elimination"
+                   FontSize="26"
                    FontAttributes="Bold"
-                   HorizontalOptions="Center" />
+                   HorizontalOptions="Center"
+                   TextColor="#333"/>
 
-            <!-- Instructions -->
-            <Label Text="Enter matrix rows separated by new lines. Separate numbers with spaces."
+            <!-- Subtitle -->
+            <Label Text="Reduce a matrix to RREF step-by-step"
                    FontSize="14"
-                   TextColor="Gray" />
+                   HorizontalOptions="Center"
+                   TextColor="Gray"/>
 
-            <!-- Matrix Input -->
-            <Editor x:Name="MatrixInput"
-                    Placeholder="Example:
+            <!-- Input Card -->
+            <Frame CornerRadius="12"
+                   Padding="15"
+                   BackgroundColor="White"
+                   BorderColor="#E0E0E0">
+
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="Matrix Input"
+                           FontAttributes="Bold"
+                           FontSize="16"/>
+
+                    <Label Text="Enter rows separated by new lines. Use spaces between numbers."
+                           FontSize="13"
+                           TextColor="Gray"/>
+
+                    <Editor x:Name="MatrixInput"
+                            Placeholder="Example:
 1 2 3
 4 5 6
 7 8 9"
-                    AutoSize="TextChanges"
-                    HeightRequest="150"
-                    BackgroundColor="#f0f0f0" />
+                            AutoSize="TextChanges"
+                            HeightRequest="140"
+                            BackgroundColor="#FAFAFA"
+                            FontFamily="Courier New"/>
+
+                </VerticalStackLayout>
+            </Frame>
 
             <!-- Button -->
             <Button Text="Perform Elimination"
                     Clicked="OnEliminateClicked"
                     FontAttributes="Bold"
-                    HeightRequest="50"
+                    FontSize="16"
+                    HeightRequest="55"
+                    CornerRadius="12"
                     BackgroundColor="#4CAF50"
-                    TextColor="White" />
+                    TextColor="White"/>
 
-            <!-- Output Label -->
-            <Label Text="Steps:"
+            <!-- Steps Header -->
+            <Label Text="Step-by-Step Solution"
                    FontSize="18"
-                   FontAttributes="Bold" />
+                   FontAttributes="Bold"
+                   TextColor="#333"/>
 
-            <!-- Steps Output -->
-            <Label x:Name="StepsLabel"
-                   FontFamily="Courier New"
-                   LineBreakMode="WordWrap"
-                   HorizontalOptions="Start"
-                   VerticalOptions="Start" />
+            <!-- Steps Container (UPGRADED) -->
+            <VerticalStackLayout x:Name="StepsContainer"
+                                 Spacing="12"/>
 
         </VerticalStackLayout>
     </ScrollView>

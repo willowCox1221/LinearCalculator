@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Microsoft.Maui.Controls.Shapes;
 
 namespace LinearCalculator.Unit_One
 {
@@ -14,168 +15,232 @@ namespace LinearCalculator.Unit_One
         {
             try
             {
+                StepsContainer.Children.Clear();
+
                 var rows = MatrixInput.Text
                     .Trim()
                     .Split(new[] { "\r\n", "\n", "\r" },
                            StringSplitOptions.RemoveEmptyEntries);
 
                 int rowCount = rows.Length;
-                var firstRowValues = rows[0]
-                    .Trim()
-                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-                int colCount = firstRowValues.Length;
+                int colCount = rows[0].Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
 
                 double[,] matrix = new double[rowCount, colCount];
 
                 for (int i = 0; i < rowCount; i++)
                 {
-                    var values = rows[i]
-                        .Trim()
-                        .Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-                    if (values.Length != colCount)
-                    {
-                        StepsLabel.Text = "All rows must have same number of columns.";
-                        return;
-                    }
+                    var values = rows[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
                     for (int j = 0; j < colCount; j++)
                     {
-                        if (!double.TryParse(values[j], out double number))
-                        {
-                            StepsLabel.Text = "Invalid number format.";
-                            return;
-                        }
-
-                        matrix[i, j] = number;
+                        matrix[i, j] = double.Parse(values[j]);
                     }
                 }
 
-                string steps = PerformGaussianElimination(matrix);
+                // Initial
+                StepsContainer.Children.Add(
+                    CreateStep("Initial Matrix", MatrixToString(matrix))
+                );
 
-                StepsLabel.Text = steps;
+                GaussianElimination(matrix);
+
+                // Final matrix
+                StepsContainer.Children.Add(
+                    CreateStep("Final RREF", MatrixToString(matrix))
+                );
+
+                // ✅ NOW matrix exists here
+                string resultType = AnalyzeSolution(matrix);
+
+                StepsContainer.Children.Add(
+                    CreateStep("Solution Type", resultType)
+                );
             }
             catch
             {
-                StepsLabel.Text = "Invalid matrix input.";
+                StepsContainer.Children.Add(
+                    CreateStep("Error", "Invalid input.")
+                );
             }
         }
 
-        private string PerformGaussianElimination(double[,] matrix)
+        private string AnalyzeSolution(double[,] matrix)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
 
-            StringBuilder steps = new StringBuilder();
-            int lead = 0;
+            int pivotCount = 0;
 
-            for (int r = 0; r < rows; r++)
+            for (int i = 0; i < rows; i++)
             {
-                if (lead >= cols)
-                    break;
+                bool allZero = true;
 
-                int i = r;
-
-                while (Math.Abs(matrix[i, lead]) < 1e-10)
+                for (int j = 0; j < cols - 1; j++)
                 {
-                    i++;
-                    if (i == rows)
+                    if (Math.Abs(matrix[i, j]) > 1e-10)
                     {
-                        i = r;
-                        lead++;
-                        if (lead == cols)
-                            return steps.ToString();
+                        allZero = false;
+                        pivotCount++;
+                        break;
                     }
                 }
 
-                // Swap rows if needed
-                if (i != r)
+                // ❌ No solution case
+                if (allZero && Math.Abs(matrix[i, cols - 1]) > 1e-10)
                 {
-                    SwapRows(matrix, i, r);
-                    steps.AppendLine($"R{i + 1} ↔ R{r + 1}");
-                    steps.AppendLine(MatrixToString(matrix));
+                    return "No Solution ❌ (Inconsistent system)";
                 }
+            }
 
-                // Normalize pivot row
-                double pivot = matrix[r, lead];
-                if (Math.Abs(pivot - 1) > 1e-10)
-                {
-                    MultiplyRow(matrix, r, 1.0 / pivot);
-                    steps.AppendLine($"R{r + 1} = (1/{pivot:0.#####}) R{r + 1}");
-                    steps.AppendLine(MatrixToString(matrix));
-                }
+            // ♾️ Infinite solutions
+            if (pivotCount < cols - 1)
+            {
+                return "Infinite Solutions ♾️ (Free variables exist)";
+            }
 
-                // Eliminate other rows
-                for (int j = 0; j < rows; j++)
+            // ✅ Unique solution
+            return "Unique Solution ✅";
+        }
+
+        private (double[,], string) GaussianElimination(double[,] matrix)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            string steps = "";
+
+            for (int pivot = 0; pivot < rows; pivot++)
+            {
+                // 🔹 Step 1: Pivoting (swap if needed)
+                if (Math.Abs(matrix[pivot, pivot]) < 1e-10)
                 {
-                    if (j != r)
+                    for (int i = pivot + 1; i < rows; i++)
                     {
-                        double factor = matrix[j, lead];
-                        if (Math.Abs(factor) > 1e-10)
+                        if (Math.Abs(matrix[i, pivot]) > 1e-10)
                         {
-                            AddMultipleOfRow(matrix, j, r, -factor);
-                            steps.AppendLine($"R{j + 1} = R{j + 1} - ({factor:0.#####}) R{r + 1}");
-                            steps.AppendLine(MatrixToString(matrix));
+                            SwapRows(matrix, pivot, i);
+                            steps += $"Swap R{pivot + 1} ↔ R{i + 1}\n";
+                            steps += MatrixToString(matrix) + "\n";
+                            break;
                         }
                     }
                 }
 
-                lead++;
+                // 🔹 Step 2: Make pivot = 1
+                double pivotVal = matrix[pivot, pivot];
+                if (Math.Abs(pivotVal) > 1e-10)
+                {
+                    DivideRow(matrix, pivot, pivotVal);
+                    steps += $"R{pivot + 1} → R{pivot + 1} / {ToFraction(pivotVal)}\n";
+                    steps += MatrixToString(matrix) + "\n";
+                }
+
+                // 🔹 Step 3: Eliminate below
+                for (int i = pivot + 1; i < rows; i++)
+                {
+                    double factor = matrix[i, pivot];
+                    if (Math.Abs(factor) > 1e-10)
+                    {
+                        SubtractRows(matrix, i, pivot, factor);
+                        steps += $"R{i + 1} → R{i + 1} - ({ToFraction(factor)})R{pivot + 1}\n";
+                        steps += MatrixToString(matrix) + "\n";
+                    }
+                }
             }
 
-            steps.AppendLine("Final RREF:");
-            steps.AppendLine(MatrixToString(matrix));
+            // 🔹 Step 4: Backward elimination (RREF)
+            for (int pivot = rows - 1; pivot >= 0; pivot--)
+            {
+                for (int i = pivot - 1; i >= 0; i--)
+                {
+                    double factor = matrix[i, pivot];
+                    if (Math.Abs(factor) > 1e-10)
+                    {
+                        SubtractRows(matrix, i, pivot, factor);
+                        steps += $"R{i + 1} → R{i + 1} - ({ToFraction(factor)})R{pivot + 1}\n";
+                        steps += MatrixToString(matrix) + "\n";
+                    }
+                }
+            }
 
-            return steps.ToString();
+            return (matrix, steps);
+
         }
 
-        private void SwapRows(double[,] matrix, int r1, int r2)
+        private View CreateStep(string title, string matrixText)
         {
-            int cols = matrix.GetLength(1);
+            return new Frame
+            {
+                CornerRadius = 10,
+                Padding = 10,
+                BorderColor = Colors.LightGray,
+                BackgroundColor = Colors.White,
+                Content = new VerticalStackLayout
+                {
+                    Children =
+            {
+                new Label
+                {
+                    Text = title,
+                    FontSize = 16,
+                    FontAttributes = FontAttributes.Bold,
+                    TextColor = Colors.Green
+                },
+                new Label
+                {
+                    Text = matrixText,
+                    FontFamily = "Courier New",
+                    FontSize = 14
+                }
+            }
+                }
+            };
+        }
+        private void SwapRows(double[,] m, int r1, int r2)
+        {
+            int cols = m.GetLength(1);
             for (int j = 0; j < cols; j++)
             {
-                double temp = matrix[r1, j];
-                matrix[r1, j] = matrix[r2, j];
-                matrix[r2, j] = temp;
+                (m[r1, j], m[r2, j]) = (m[r2, j], m[r1, j]);
             }
         }
 
-        private void MultiplyRow(double[,] matrix, int row, double scalar)
+        private void DivideRow(double[,] m, int row, double divisor)
         {
-            int cols = matrix.GetLength(1);
+            int cols = m.GetLength(1);
             for (int j = 0; j < cols; j++)
-                matrix[row, j] *= scalar;
+            {
+                m[row, j] /= divisor;
+            }
         }
 
-        private void AddMultipleOfRow(double[,] matrix, int targetRow, int sourceRow, double scalar)
+        private void SubtractRows(double[,] m, int target, int source, double factor)
         {
-            int cols = matrix.GetLength(1);
+            int cols = m.GetLength(1);
             for (int j = 0; j < cols; j++)
-                matrix[targetRow, j] += matrix[sourceRow, j] * scalar;
+            {
+                m[target, j] -= factor * m[source, j];
+            }
         }
-
-        
 
         private string MatrixToString(double[,] matrix)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
 
-            StringBuilder sb = new StringBuilder();
+            string result = "";
 
             for (int i = 0; i < rows; i++)
             {
-                sb.Append("| ");
+                result += "| ";
                 for (int j = 0; j < cols; j++)
                 {
-                    sb.Append($"{ToFraction(matrix[i, j]),8} ");
+                    result += $"{ToFraction(matrix[i, j]),6}";
                 }
-                sb.AppendLine("|");
+                result += " |\n";
             }
 
-            sb.AppendLine();
-            return sb.ToString();
+            return result;
         }
 
         private string ToFraction(double value)
@@ -186,15 +251,36 @@ namespace LinearCalculator.Unit_One
             if (Math.Abs(value % 1) < 1e-10)
                 return ((int)Math.Round(value)).ToString();
 
-            int denominator = 1000;
-            int numerator = (int)Math.Round(value * denominator);
+            int maxDenominator = 1000;
+            int bestNumerator = 0;
+            int bestDenominator = 1;
+            double bestError = double.MaxValue;
 
-            int gcd = GCD(Math.Abs(numerator), denominator);
+            for (int den = 1; den <= maxDenominator; den++)
+            {
+                int num = (int)Math.Round(value * den);
+                double error = Math.Abs(value - (double)num / den);
 
-            numerator /= gcd;
-            denominator /= gcd;
+                if (error < bestError)
+                {
+                    bestError = error;
+                    bestNumerator = num;
+                    bestDenominator = den;
+                }
 
-            return $"{numerator}/{denominator}";
+                if (error < 1e-10)
+                    break;
+            }
+
+            int gcd = GCD(Math.Abs(bestNumerator), Math.Abs(bestDenominator));
+
+            bestNumerator /= gcd;
+            bestDenominator /= gcd;
+
+            if (bestDenominator == 1)
+                return bestNumerator.ToString();
+
+            return $"{bestNumerator}/{bestDenominator}";
         }
 
         private int GCD(int a, int b)
@@ -207,6 +293,5 @@ namespace LinearCalculator.Unit_One
             }
             return a;
         }
-
     }
 }
